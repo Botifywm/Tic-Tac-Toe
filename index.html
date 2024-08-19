@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>TIC TAC TOE</h1>
+    <div class="containerScore">
+        <div class="p1"></div>
+        <div class="p2"></div>
+    </div>
+    <div class="container">
+        <div class="cell" data-value="1"></div>
+        <div class="cell" data-value="2"></div>
+        <div class="cell" data-value="3"></div>
+        <div class="cell" data-value="4"></div>
+        <div class="cell" data-value="5"></div>
+        <div class="cell" data-value="6"></div>
+        <div class="cell" data-value="7"></div>
+        <div class="cell" data-value="8"></div>
+        <div class="cell" data-value="9"></div>
+    </div>
+    <div class="reset">
+        <button class="resetBoard">Reset Board</button>
+        <button class="resetScore">Reset Score</button>
+    </div>
+
+    <dialog>
+        <div class="modal-container">
+            <form class="nameForm" action="">
+                <div class="p1name">
+                    <label for="p1name">Player One's Name: </label>
+                    <input type="text" id="p1name">
+                </div>
+                <button class="submitName">Choose Player's Name!</button>
+                <div class="pname2">
+                    <label for="p2name">Player Two's Name: </label>
+                    <input type="text" id="p2name">
+                </div>
+            </form>
+        </div>
+    </dialog>
+</body>
+</html>

@@ -1,0 +1,100 @@
+body {
+    background-image: linear-gradient(
+        45deg,
+        magenta,
+        rebeccapurple,
+        dodgerblue,
+        green
+      );
+      height: 100vh;
+}
+
+h1 {
+    color: #53a8b6;
+    text-align: center;
+}
+
+h2 {
+    color: beige;
+    text-align: center;
+}
+
+.nameForm {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #385170;
+    padding: 1rem;
+}
+
+label {
+    color: #ececec;
+}
+
+.containerScore {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.p1 {
+    color: red;
+    font-weight: bold;
+}
+
+.p2 {
+    color: rgb(45, 181, 45);
+    font-weight: bold;
+}
+
+.container {
+    box-sizing: border-box;
+    border: 4px solid #ececec;
+    width: 32rem;
+    height: 32rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    margin: auto;
+    margin-top: 1rem;
+}
+
+.cell {
+    border: 2px solid #ececec;
+    font-size: 8rem;
+    text-align: center;
+    color: aquamarine;
+}
+
+p {
+    color: blanchedalmond;
+    text-align: center;
+}
+
+.reset {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+    gap: 4.5rem;
+}
+
+.resetBoard {
+    background-color: #53a8b6;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.resetScore {
+    background-color: wheat;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+::backdrop {
+    background-image: linear-gradient(
+        45deg,
+        magenta,
+        rebeccapurple,
+        dodgerblue,
+        green
+      );
+      opacity: 0.75;
+  }
