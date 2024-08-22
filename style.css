@@ -77,11 +77,18 @@ dialog{
     outline: 0;
 }
 
+.formHeading {
+    text-align: center;
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
 .nameForm {
     display: grid;
     padding: 1rem;
-    width: 15rem;
-    height: 12rem;
+    width: 18rem;
+    height: 15rem;
     border-radius: 10px;
     justify-items: center;
     background-color: #ececec;
