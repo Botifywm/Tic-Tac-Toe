@@ -1,29 +1,77 @@
-//Module IIFE
+//Module IIFE ***
 const gameBoard = (function () {
+    // NAME setup
     const dialog = document.querySelector('dialog');
-    const p1Name = document.querySelector('#p1name').value;
-    const p2Name = document.querySelector('#p2name').value;
+    const p1Name = document.querySelector('#p1name');
+    const p2Name = document.querySelector('#p2name');
     const closeSubmitName = document.querySelector('.submitName');
-    const setupName = () => {
-        dialog.showModal();
-        closeSubmitName.addEventListener('click', (e) => {
-            e.preventDefault();
-            dialog.close();
-        });
-    };
+    const form = document.querySelector('.nameForm');
+    const setupName = () => dialog.showModal();
+    
+    // TURN DESCRIPTION setup
+    const state = document.createElement('h2');
+    const title = document.querySelector('.heading');
 
-    return {dialog, p1Name, p2Name, closeSubmitName, setupName};
+    //TRACKER setup
+    const scoreTrack = document.querySelector('.scoreTrack');
+    const player1 = document.querySelector('.player1');
+    const tie = document.querySelector('.tie');
+    const player2 = document.querySelector('.player2');
+    let tie_score = 0;
+    const tieAccum = () => tie_score++;
+    const getTie = () => tie_score;
+
+    // BOARD CELLS
+    const cells = document.querySelectorAll('.cell');
+    const arrayCells = Array.from(cells);
+
+    //RESET the game, score and name
+    const resetbtn = document.querySelector('.resetBoard');
+    const resetScoreBtn = document.querySelector('.resetScore');
+
+    const resetBoard = (p1, p2) =>{
+            p1.chosenCell = [];
+            p2.chosenCell = [];
+            const nodeList = document.querySelectorAll('.cell');
+            nodeList.forEach((cell) => {
+                cell.innerHTML = '';
+            });
+    };
+    
+    const resetScore = (p1, p2) => {
+        p1.score = 0;
+        p2.score = 0;
+        tie_score = 0;
+        player1.textContent = `${p1.name}: ${p1.score}`
+        player2.textContent = `${p2.name}: ${p2.score}`
+        tie.textContent = `Tie: ${getTie()}`
+    }
+
+    // MODAL Set up
+    const winnerModal = document.querySelector('.winnerModal');
+    const winnerModalContent = document.querySelector('.winnerModalContent');
+    const replay = document.querySelector('.replay');
+    const finish = document.querySelector('.finish');
+    const restart = document.querySelector('.restart');
+    const displayWinner = document.querySelector('.displayWinner');
+
+
+    return {dialog, form, p1Name, p2Name, closeSubmitName, setupName, state, title,
+        scoreTrack, player1, tie, player2, tieAccum, getTie, cells, arrayCells,
+        resetBoard, resetScore, winnerModal, winnerModalContent, replay, finish,
+        displayWinner, resetbtn, resetScoreBtn, restart};
 })();
 
-// factory to create players
-function player (playerName, mark) {
-    let name = playerName;
+// FACTORY to create players ***
+function player () {
+    let name = "player";
     let chosenCell = [];
     let score = 0;
-    let marker = mark
+    let marker = ''
     return {name, chosenCell, score, marker};
 }
 
+// FACTORY to check winner ***
 function checkWinner (chosenCell) {
     let results = "F"
     const array = chosenCell;
@@ -62,108 +110,132 @@ function checkWinner (chosenCell) {
 }
 
 
-
-// main controller for the game
+// GAME CONTROLLER ***
 function gameController (playerOne = "Player One", playerTwo = "Player Two") {
-    // create players
+    
+    //START: Setting up local variables that can be accessed by playround function scope
+    
+    // Create players
     const p1 = player(playerOne);
     const p2 = player(playerTwo);
-    // p1.name = submitName().p1Name; 
-    // p2.name = submitName().p2Name; 
     p1.marker = 'X';
     p2.marker = 'O';
-    // const board = gameBoard().getBoard();
 
-    //Submit players' name
-    const submitName = () => {
-        const p1 = document.querySelector('#p1name');
-        const p2 = document.querySelector('#p2name');
-        const submitName = document.querySelector('.submitName');
-        submitName.addEventListener('click', () => {
-            p1.name = p1.value; 
-            p2.name = p2.value; 
-        })
-    }
-
-    // start with player 1 first and switch turns
+    // Start with player 1 first and switch turns
     let activePlayer = p1;
+    let startTurn = p1;
 
     const switchTurn = () => {
         activePlayer = activePlayer === p1 ? p2 : p1;
     }
 
+    // When players replay, the starting player will change
+    const switchStartTurn = () => {
+        startTurn = startTurn === p1 ? p2 : p1;
+        activePlayer = startTurn;
+    }
+
     const getPlayer = () => activePlayer;
 
-    // function to mark the players choice and store it
+    // Function to mark the players' choice/location and store it
     const play = (cell) => {
         const choice = cell.getAttribute('data-value');
         getPlayer().chosenCell.push(choice);
     }
 
-    // function to reset the game 
-    const reset = () =>{
-        p1.chosenCell = [];
-        p2.chosenCell = [];
-        const nodeList = document.querySelectorAll('.cell');
-        nodeList.forEach((cell) => {
-            cell.innerHTML = '';
-        })
-    }
+    // END: Setting up local variables that can be accessed by playround function scope
 
-    // Finally, this executes the logic flow
+    // Finally, this executes the logic flow of the game
     const playRound = () => {
+        // Initial dialog form to get name inputs
         gameBoard.setupName();
-        const state = document.createElement('h2');
-        const title = document.querySelector('h1');
-        state.textContent = `${getPlayer().name} (${getPlayer().marker}) Starts`
-        title.insertAdjacentElement("afterend", state);
+        gameBoard.form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            p1.name = gameBoard.p1Name.value;
+            p2.name = gameBoard.p2Name.value;
+            gameBoard.dialog.close();
+            // Set up the board after getting the players' name
+            gameBoard.state.textContent = `${getPlayer().name} starts (${getPlayer().marker})`;
+            gameBoard.player1.textContent = `${p1.name}: ${p1.score}`
+            gameBoard.player2.textContent = `${p2.name}: ${p2.score}`
+            gameBoard.tie.textContent = `Tie: ${gameBoard.getTie()}`
+        })
+        gameBoard.title.insertAdjacentElement("afterend", gameBoard.state);
 
-        const cells = document.querySelectorAll('.cell');
-        const arrayCells = Array.from(cells);
-        cells.forEach((cell) => {
+        // Mark the cells and check winner whenever a cell is clicked
+        gameBoard.cells.forEach((cell) => {
             cell.addEventListener('click', () => {
                 if (cell.textContent === '') {
                     cell.textContent = getPlayer().marker;
                     play(cell);
-                }
-                switchTurn();
-                if(checkWinner(p1.chosenCell).results !== 'T' &&
-                checkWinner(p2.chosenCell).results !== 'T') {
-                    if (arrayCells.every((cell) => cell.innerHTML !== '')){
-                        state.textContent = `It's a Draw!`
-                        return;
-                    }
-                    state.textContent = `${getPlayer().name}'s (${getPlayer().marker}) Turn`
-                }
-                else if (checkWinner(p1.chosenCell).results === 'T' ||
-                checkWinner(p2.chosenCell).results === 'T'){
                     switchTurn();
-                    state.textContent = `${getPlayer().name}'s Wins`
+                    if(checkWinner(p1.chosenCell).results !== 'T' &&
+                    checkWinner(p2.chosenCell).results !== 'T') {
+                        if (gameBoard.arrayCells.every((cell) => cell.innerHTML !== '')){
+                            gameBoard.displayWinner.textContent = "It's a Draw!";
+                            gameBoard.winnerModal.style.display = "block";
+                            gameBoard.tieAccum();
+                            gameBoard.tie.textContent = `Tie: ${gameBoard.getTie()}`
+                        }
+                        gameBoard.state.textContent = `${getPlayer().name}'s Turn (${getPlayer().marker})`
+                    }
+                    else if (checkWinner(p1.chosenCell).results === 'T' ||
+                    checkWinner(p2.chosenCell).results === 'T'){
+                        switchTurn();
+                        gameBoard.displayWinner.textContent = `${getPlayer().name} Wins!`
+                        gameBoard.winnerModal.style.display = "block";
+                        getPlayer().score++;
+                        if(getPlayer().name === p1.name){
+                            gameBoard.player1.textContent = `${p1.name}: ${p1.score}`;
+                        }
+                        else {
+                            gameBoard.player2.textContent = `${p2.name}: ${p2.score}`;
+                        }
+                    }
                 }
             })
         })
-        const resetbtn = document.querySelector('.reset');
-        resetbtn.addEventListener('click', () => {
-            reset();
+        // RESETTING
+
+        // 1) Board
+        gameBoard.resetbtn.addEventListener('click', () => {
+            gameBoard.resetBoard(p1, p2);
+        })
+        // 2) Scores
+        gameBoard.resetScoreBtn.addEventListener('click', () => {
+            gameBoard.resetScore(p1, p2)
+        })
+        // 3) Replay
+        gameBoard.replay.addEventListener('click', () => {
+            gameBoard.resetBoard(p1, p2);
+            gameBoard.winnerModal.style.display = "none";
+            switchStartTurn();
+            gameBoard.state.textContent = `${getPlayer().name} starts (${getPlayer().marker})`;
+        })
+        // 4) Conclude the game
+        gameBoard.finish.addEventListener('click', () => {
+            gameBoard.replay.classList.add("disable");
+            if (p1.score > p2.score){
+                gameBoard.displayWinner.textContent = `${p1.name} is the Final Winner!`;
+            }
+            else if (p1.score < p2.score){
+                gameBoard.displayWinner.textContent = `${p2.name} is the Final Winner!`;
+            }
+            else {
+                gameBoard.displayWinner.textContent = `It's a Draw! Both are the Final Winners!`;
+            }
+        })
+        // 5) Restart the whole game (players remain the same)
+        gameBoard.restart.addEventListener('click', () => {
+            gameBoard.resetBoard(p1, p2);
+            gameBoard.resetScore(p1, p2);
+            gameBoard.winnerModal.style.display = "none";
+            gameBoard.replay.classList.remove("disable");
         })
     }
-    return {playRound, getPlayer, play};
+
+    return {playRound};
 }
 
 const game = gameController().playRound;
 game();
-
-
-
-
-
-
-
-
-    // let board = [[1,2,3], [4,5,6], [7,8,9]];
-    // const getBoard = () => board;
-    // const printBoard = (board) => {
-    //     for (let i = 0; i< board.length; i++){
-    //         console.log(board[i]);
-    //     }
-    // }

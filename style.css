@@ -1,55 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
 body {
     background-image: linear-gradient(
-        45deg,
+        90deg,
         magenta,
         rebeccapurple,
-        dodgerblue,
-        green
+        dodgerblue
       );
       height: 100vh;
 }
 
-h1 {
-    color: #53a8b6;
+.heading {
+    color: rgb(229, 243, 149);
     text-align: center;
+    font-family: "Chakra Petch", sans-serif;
+    letter-spacing: 4px;
+    font-size: 3rem;
+    font-weight: 600;
 }
 
 h2 {
     color: beige;
     text-align: center;
+    letter-spacing: 2px;
+    font-family: "Chakra Petch", sans-serif;
 }
 
-.nameForm {
-    display: flex;
-    justify-content: space-evenly;
-    background-color: #385170;
-    padding: 1rem;
-}
 
-label {
-    color: #ececec;
-}
-
-.containerScore {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.p1 {
-    color: red;
-    font-weight: bold;
-}
-
-.p2 {
-    color: rgb(45, 181, 45);
-    font-weight: bold;
-}
-
+/* BOARD */
 .container {
-    box-sizing: border-box;
     border: 4px solid #ececec;
-    width: 32rem;
-    height: 32rem;
+    width: 30rem;
+    height: 30rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -59,16 +41,137 @@ label {
 
 .cell {
     border: 2px solid #ececec;
-    font-size: 8rem;
+    font-size: 6rem;
     text-align: center;
     color: aquamarine;
+    font-family: "Chakra Petch", sans-serif;
 }
 
-p {
-    color: blanchedalmond;
+
+/* SCORE TALLY */
+.scoreTrack {
+    display: grid;
+    grid-template-columns: repeat(3, 10rem);
+    justify-content: center;
+    justify-items: center;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.player1, .tie, .player2 {
+    border: 2px solid white;
+    justify-self: stretch;
     text-align: center;
+    border-radius: 5px;
+    padding: 0.2rem 0;
+    background-color: #ececec;
+    font-family: "Chakra Petch", sans-serif;
 }
 
+
+/* DIALOG */
+dialog{ 
+    padding : 0;
+    border: 0;
+    background-color: transparent;
+    outline: 0;
+}
+
+.nameForm {
+    display: grid;
+    padding: 1rem;
+    width: 15rem;
+    height: 12rem;
+    border-radius: 10px;
+    justify-items: center;
+    background-color: #ececec;
+    font-size: 1rem;
+}
+
+.p1name, .p2name {
+    text-align: center;
+    color: black;
+}
+
+.submitName {
+    background-color: white;
+    height: 2rem;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+label {
+    color: purple;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+::backdrop {
+    background-image: linear-gradient(
+        180deg,
+        rebeccapurple,
+        dodgerblue
+        );
+    opacity: 1;
+}
+
+
+/* WINNER MODAL */
+.winnerModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 10%;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    margin: auto;
+    background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+}
+
+.winnerModalContent {
+    display: grid;
+    padding: 1rem;
+    width: 20rem;
+    height: 15rem;
+    border-radius: 10px;
+    justify-items: center;
+    background-image: linear-gradient(
+        180deg,
+        rebeccapurple,
+        dodgerblue
+      );
+    font-size: 1rem;
+    margin: auto;
+    font-family: "Chakra Petch", sans-serif;
+}
+
+.displayWinner {
+    font-size: 2rem;
+    margin-top: auto;
+    font-family: pacifico;
+    text-align: center;
+    font-family: "Chakra Petch", sans-serif;
+    color: #ececec;
+}
+
+.winnerModalBtns {
+    text-align: center;
+    margin-top: auto;
+}
+
+.replay.disable{
+    color: grey;
+    cursor: not-allowed;
+}
+
+
+/* RESET BUTTON ON BOARD */
 .reset {
     display: flex;
     justify-content: space-evenly;
@@ -80,21 +183,12 @@ p {
     background-color: #53a8b6;
     border-radius: 5px;
     font-size: 1rem;
+    font-family: "Chakra Petch", sans-serif;
 }
 
 .resetScore {
     background-color: wheat;
     border-radius: 5px;
     font-size: 1rem;
+    font-family: "Chakra Petch", sans-serif;
 }
-
-::backdrop {
-    background-image: linear-gradient(
-        45deg,
-        magenta,
-        rebeccapurple,
-        dodgerblue,
-        green
-      );
-      opacity: 0.75;
-  }

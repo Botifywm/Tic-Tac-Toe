@@ -8,11 +8,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>TIC TAC TOE</h1>
-    <div class="containerScore">
-        <div class="p1"></div>
-        <div class="p2"></div>
-    </div>
+    <div class="heading">TIC-TAC-TOE</div>
+
     <div class="container">
         <div class="cell" data-value="1"></div>
         <div class="cell" data-value="2"></div>
@@ -24,6 +21,13 @@
         <div class="cell" data-value="8"></div>
         <div class="cell" data-value="9"></div>
     </div>
+
+    <div class="scoreTrack">
+        <div class="player1"></div>
+        <div class="tie"></div>
+        <div class="player2"></div>
+    </div>
+    
     <div class="reset">
         <button class="resetBoard">Reset Board</button>
         <button class="resetScore">Reset Score</button>
@@ -34,15 +38,26 @@
             <form class="nameForm" action="">
                 <div class="p1name">
                     <label for="p1name">Player One's Name: </label>
-                    <input type="text" id="p1name">
+                    <input type="text" id="p1name" minlength="3" required>
                 </div>
-                <button class="submitName">Choose Player's Name!</button>
-                <div class="pname2">
+                <div class="p2name">
                     <label for="p2name">Player Two's Name: </label>
-                    <input type="text" id="p2name">
+                    <input type="text" id="p2name" minlength="3" required>
                 </div>
+                <button class="submitName" type="submit">Start Game!</button>
             </form>
         </div>
     </dialog>
+
+    <div class="winnerModal">
+        <div class="winnerModalContent">
+            <div class="displayWinner"></div>
+            <div class="winnerModalBtns">
+                <button class="replay" type="submit">Replay</button>
+                <button class="finish" type="submit">Finish the game!</button>
+                <button class="restart" type="submit">Restart</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
